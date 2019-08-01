@@ -24,11 +24,24 @@ typedef struct Line
 } Line;
 
 
+void swapLinePoints(Line * line)
+{
+	int temp = line->x0;
+	int temp1 = line->y0;
+
+	line->x0 = line->x1;
+	line->y0 = line->y1;
+
+	line->x1 = temp;
+	line->y1 = temp1;
+}
+
+
 int main(int argc, const char *argv[])
 {
 	const int Ximg = 100;
 	const int Yimg = 100;
- 	int x, y;
+	int x, y;
 
 	Color * black = CreateColor(0, 0, 0);
 	Color * red = CreateColor(255, 0, 0);
@@ -36,12 +49,19 @@ int main(int argc, const char *argv[])
 	Color * blue = CreateColor(0, 0, 255);
 
 
-	Line line1 = {.x0 = 1, .y0 = 50, .x1 = 70, .y1 = 50};
+	Line line1 = {.x0 = 50, .y0 = 70, .x1 = 30, .y0 = 30};
+	Line line2 = {.x0 = 1, .y0 = 50, .x1 = 70, .y1 = 50};
 
 	double tan = (double) (line1.y1 - line1.y0) / (line1.x1 - line1.x0);
 
 	ppmImg * img = CreateImg(Ximg, Yimg, 255);
 	SetBackgroundColor(img, white);
+
+
+	if (line1.x0 > line1.x1)
+	{
+		swapLinePoints(&line1);
+	}
 
 
 	for (x = line1.x0; x <= line1.x1; x++)
@@ -57,4 +77,3 @@ int main(int argc, const char *argv[])
 	
 	return 0;
 }
-
