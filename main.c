@@ -28,6 +28,35 @@ void swapInt(int * a, int * b)
 }
 
 
+void circle(int X, int Y, int R, ppmImg * img, Color * color)
+{
+	int x = 0;
+	int y = R;
+	int delta = 1 - 2 * R;
+	int error = 0;
+	while (y >= 0)
+	{
+		SetPixelColor(img, X + x, img->height - Y - y, color);
+		SetPixelColor(img, X + x, img->height - Y + y, color);
+		SetPixelColor(img, X - x, img->height - Y - y, color);
+		SetPixelColor(img, X - x, img->height - Y + y, color);
+
+		error = 2 * (delta + y) - 1;
+		if ((delta < 0) && (error <= 0))
+		{
+			delta += 2 * ++x + 1;
+			continue;
+		}
+		if ((delta > 0) && (error > 0))
+		{
+			delta -= 2 * --y + 1;
+			continue;
+		}
+		delta += 2 * (++x - y--);
+	}
+}
+
+
 void line(int x0, int y0, int x1, int y1, ppmImg * img, Color * color)
 {
 	int x, y;
@@ -96,6 +125,8 @@ int main(int argc, const char *argv[])
 	line(line1.x0, line1.y0, line1.x1, line1.y1, img, red);
 	line(line2.x0, line2.y0, line2.x1, line2.y1, img, blue);
 	line(line3.x0, line3.y0, line3.x1, line3.y1, img, green);
+
+	circle(50, 50, 30, img, black);
 
 	WriteImgToFile(img, "image.ppm");
 
