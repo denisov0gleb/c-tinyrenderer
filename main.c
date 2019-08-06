@@ -31,6 +31,7 @@ void swapInt(int * a, int * b)
 void line(int x0, int y0, int x1, int y1, ppmImg * img, Color * color)
 {
 	int x, y;
+	double error = 0;
 	int steepAngle = 0;
 
 	if ( fabs(y1 - y0) > fabs(x1 - x0) )
@@ -40,7 +41,9 @@ void line(int x0, int y0, int x1, int y1, ppmImg * img, Color * color)
 		steepAngle = 1;
 	}
 
-	double tan = (double) (y1 - y0) / (x1 - x0);
+	double tan = fabs( (double) (y1 - y0) / (x1 - x0) );
+
+	int yDir = ( y1 - y0 ) > 0 ? 1 : -1;
 
 	if (x0 > x1)
 	{
@@ -48,20 +51,20 @@ void line(int x0, int y0, int x1, int y1, ppmImg * img, Color * color)
 		swapInt(&y0, &y1);
 	}
 
+	y = y0;
+
 	for (x = x0; x <= x1; x++)
 	{
-		y = round( tan * (x - x0) + y0 );
-
 		/* maximum y value - current y
 		 * to make (0;0) in the left bottom corner
 		 */
-		if (steepAngle)
+		steepAngle ? SetPixelColor(img, img->height - y, x, color) : SetPixelColor(img, x, img->height - y, color);
+
+		error += tan;
+		if ( error >= 0.5)
 		{
-			SetPixelColor(img, img->height - y, x, color);
-		}
-		else
-		{
-			SetPixelColor(img, x, img->height - y, color);
+			y += yDir;
+			--error;
 		}
 	}
 }
