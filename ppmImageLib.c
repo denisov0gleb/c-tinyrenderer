@@ -9,7 +9,7 @@
 
 /*
  * Usage:
- * 		Color * red = CreateColor(255, 0, 0);
+ *   Color * red = CreateColor(255, 0, 0);
  */
 Color * CreateColor(unsigned char red, unsigned char green, unsigned char blue)
 {
@@ -23,13 +23,28 @@ Color * CreateColor(unsigned char red, unsigned char green, unsigned char blue)
 }
 
 
+int ColorCompare(Color * c1, Color * c2)
+{
+	if ( ( c1->r == c2->r ) && ( c1->g == c2->g ) && ( c1->b == c2->b ) )
+		return 1;
+	else
+		return 0;
+}
+
+
+void DeleteColor(Color * color)
+{
+	free(color);
+}
+
+
 /*****************************************
  * ppmImage part
  ****************************************/
 
 /*
  * Usage:
- * 		ppmImg * img1 = CreateImg(4, 4, 255);
+ *   ppmImg * img1 = CreateImg(4, 4, 255);
  */
 ppmImg * CreateImg(int width, int height, int maxVal)
 {
@@ -78,11 +93,41 @@ void SetBackgroundColor(ppmImg * img, Color * color)
 
 /*
  * Usage:
- * 		Color * c1 = GetPixelColor(img, x, y);
+ *   FlipImageVertically(img);
+ */
+void FlipImageVertically(ppmImg * img)
+{
+	Color * currentColor;
+	Color * tempColor;
+	int x, y;
+	int height = img->height;
+
+	for (y = 0; y < height / 2; y++)
+	{
+		for (x = 0; x < img->width; x++)
+		{
+			tempColor = GetPixelColor(img, x, height - y - 1);
+			currentColor = GetPixelColor(img, x, y);
+			SetPixelColor(img, x, y, tempColor);
+			SetPixelColor(img, x, height - y - 1, currentColor);
+		}
+	}
+}
+
+
+/*
+ * Usage:
+ *   Color * c1 = GetPixelColor(img, x, y);
  */
 Color * GetPixelColor(ppmImg * img, int x , int y)
 {
-	return &img->img[arr2D(img, x, y)];
+	Color * color = malloc(sizeof(Color));
+
+	color->r = img->img[arr2D(img, x, y)].r;
+	color->g = img->img[arr2D(img, x, y)].g;
+	color->b = img->img[arr2D(img, x, y)].b;
+
+	return color;
 }
 
 

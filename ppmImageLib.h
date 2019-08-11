@@ -19,6 +19,15 @@ typedef struct Color
 Color * CreateColor(unsigned char red, unsigned char green, unsigned char blue);
 
 
+/*
+ * Return 1 if equal colors, and 0 if not
+ */
+int ColorCompare(Color * c1, Color * c2);
+
+
+void DeleteColor(Color * color);
+
+
 /*****************************************
  * ppmImage part
  ****************************************/
@@ -35,24 +44,35 @@ typedef struct ppmImg
 
 /*
  * Usage:
- * 		ppmImg * img1 = CreateImg(4, 4, 255);
+ *   ppmImg * img1 = CreateImg(4, 4, 255);
  */
 ppmImg * CreateImg(int width, int height, int maxVal);
+
 
 /*
  * Return integer as index made from 2D array
  */
 int arr2D(ppmImg * img, int x, int y);
 
+
 void SetPixelColor(ppmImg * img, int x, int y, Color * color);
+
 
 void SetBackgroundColor(ppmImg * img, Color * color);
 
 /*
  * Usage:
- * 		Color * c1 = GetPixelColor(img, x, y);
+ *   FlipImageVertically(img);
+ */
+void FlipImageVertically(ppmImg * img);
+
+
+/*
+ * Usage:
+ *   Color * c1 = GetPixelColor(img, x, y);
  */
 Color * GetPixelColor(ppmImg * img, int x , int y);
+
 
 void WriteImgToFile(ppmImg * img, char * fileName);
 
@@ -62,14 +82,18 @@ void WriteImgToFile(ppmImg * img, char * fileName);
  */
 void WriteImgToFileASCII(ppmImg * img, char * fileName);
 
+
 /*
  * For "P6" format
  * Generates PC-readable image
  */
 void WriteImgToFileBinary(ppmImg * img, char * fileName);
 
+
 //int ReadImgFromFile(ppmImg * img, char * fileName);
 
+
 void DeleteImg(ppmImg * img);
+
 
 #endif /* PPMIMAGELIB_H */
