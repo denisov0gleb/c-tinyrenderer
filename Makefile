@@ -3,7 +3,7 @@ CFLAGS = -o
 
 EXECUTABLE = main
 
-LIBS = ppmImageLib.c
+LIBS = ppmImageLib.c objLib.c
 
 
 ifeq ($(OS),Windows_NT) 

@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "ppmImageLib.h"
+#include "objLib.h"
 
 
 typedef struct Point
@@ -106,8 +107,12 @@ void line(int x0, int y0, int x1, int y1, ppmImg * img, Color * color)
 
 int main(int argc, const char *argv[])
 {
-	const int imgWidth = 100;
-	const int imgHeight = 100;
+	const int imgWidth = 1000;
+	const int imgHeight = 1000;
+	int i, j;
+	int x0, y0;
+	int x1, y1;
+	int x2, y2;
 
 	Color * black = CreateColor(0, 0, 0);
 	Color * red = CreateColor(255, 0, 0);
@@ -117,14 +122,33 @@ int main(int argc, const char *argv[])
 
 
 	ppmImg * img = CreateImg(imgWidth, imgHeight, 255);
-	SetBackgroundColor(img, white);
+	SetBackgroundColor(img, black);
 
+	All * triangles = ParseObjFile("./obj/african_head.obj");
+
+	for (i = 0; i < triangles->fCurrent; i++)
+	{
+		x0 = (int) (triangles->Triangles[i][0].x*imgWidth/2 + imgWidth / 2);
+		y0 = (int) (triangles->Triangles[i][0].y*imgHeight/2 + imgHeight / 2);
+		x1 = (int) (triangles->Triangles[i][1].x*imgWidth/2 + imgWidth / 2);
+		y1 = (int) (triangles->Triangles[i][1].y*imgHeight/2 + imgHeight / 2);
+		x2 = (int) (triangles->Triangles[i][2].x*imgWidth/2 + imgWidth / 2);
+		y2 = (int) (triangles->Triangles[i][2].y*imgHeight/2 + imgHeight / 2);
+
+
+		line(x0,y0, x1, y1, img, white);
+		line(x0,y0, x2, y2, img, white);
+		line(x1,y1, x2, y2, img, white);
+	}
+
+	/*
 	fprintf(stdout, "Red\n");
 	line(10, 10, 10, 50, img, red);
 	fprintf(stdout, "Green\n");
 	line(10, 10, 50, 50, img, green);
 	fprintf(stdout, "Blue\n");
 	line(10, 10, 50, 10, img, blue);
+	*/
 
 	FlipImageVertically(img);
 
