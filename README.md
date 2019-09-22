@@ -5,6 +5,8 @@ The main idea is based on [tinyrender](https://github.com/ssloy/tinyrenderer) tu
 
 All used non-standard libraries are written by myself:
 * [ppmImageLib](https://github.com/denisov0gleb/ppmImageLib) - [denisov0gleb](https://github.com/denisov0gleb)
+* [objLib](https://github.com/denisov0gleb/objLib) - [denisov0gleb](https://github.com/denisov0gleb)
+* [vectorLib](https://github.com/denisov0gleb/vectorLib) - [denisov0gleb](https://github.com/denisov0gleb)
 
 
 ## Built With
